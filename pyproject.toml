@@ -1,23 +1,17 @@
 [build-system]
-requires = [ "hatchling", "ruff"]
+requires = [ "hatchling", "ruff",]
 build-backend = "hatchling.build"
 
 [project]
 name = "pyrpc-ts"
-version = "0.2.1"
+version = "0.2.2"
 description = "A type-safe RPC framework for Python"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 keywords = [ "rpc", "api", "type-safe", "framework", "fastapi", "flask", "django",]
 classifiers = [ "Development Status :: 4 - Beta", "Intended Audience :: Developers", "License :: OSI Approved :: MIT License", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Topic :: Software Development :: Libraries :: Python Modules",]
-dependencies = [
- "pydantic>=2.5.2",
- "httpx>=0.25.2",
- "typing-extensions>=4.8.0",
- "uvicorn>=0.34.0",
- "ruff>=0.9.3",
-]
+dependencies = [ "pydantic>=2.5.2", "httpx>=0.25.2", "typing-extensions>=4.8.0", "uvicorn>=0.34.0", "ruff>=0.9.3",]
 [[project.authors]]
 name = "Armin Naimi"
 email = "armin.naimi@gmail.com"
@@ -34,6 +28,13 @@ Homepage = "https://github.com/arminnaimi/pyrpc"
 Documentation = "https://github.com/arminnaimi/pyrpc#readme"
 Issues = "https://github.com/arminnaimi/pyrpc/issues"
 
+[tool.ruff]
+select = [ "E", "F", "I", "N", "B", "W", "C90",]
+ignore = []
+line-length = 88
+indent-width = 4
+target-version = "py39"
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --cov=pyrpc --cov-report=term-missing"
@@ -48,32 +49,17 @@ branch = true
 [tool.coverage.report]
 exclude_lines = [ "pragma: no cover", "def __repr__", "if TYPE_CHECKING:", "raise NotImplementedError",]
 
-[tool.hatch.build.targets.wheel]
-packages = [ "src/pyrpc",]
-
-[tool.ruff]
-# Enable pycodestyle (`E`), Pyflakes (`F`), and import sorting (`I`)
-select = ["E", "F", "I", "N", "B", "W", "C90"]
-ignore = []
-
-# Same as Black.
-line-length = 88
-indent-width = 4
-
-# Assume Python 3.9
-target-version = "py39"
-
 [tool.ruff.format]
-# Use double quotes for strings.
 quote-style = "double"
-# Indent with spaces.
 indent-style = "space"
-# Line ending style
 line-ending = "auto"
 
 [tool.ruff.isort]
-known-first-party = ["pyrpc"]
+known-first-party = [ "pyrpc",]
 combine-as-imports = true
 
 [tool.ruff.mccabe]
 max-complexity = 10
+
+[tool.hatch.build.targets.wheel]
+packages = [ "src/pyrpc",]
