@@ -12,7 +12,7 @@ async def main():
     client = create_caller(router, "http://localhost:8000/api")
 
     # Call the add procedure with type checking
-    result = await client.add(AddInput(a=2, b=2))
+    result = await client.add(AddInput(a=1, b=2))
     print(f"1 + 2 = {result.result}")
 
 
