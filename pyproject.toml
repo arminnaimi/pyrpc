@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pyrpc-ts"
-version = "0.2.2"
+version = "0.2.3"
 description = "A type-safe RPC framework for Python"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -35,6 +35,18 @@ line-length = 88
 indent-width = 4
 target-version = "py39"
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.isort]
+known-first-party = [ "pyrpc",]
+combine-as-imports = true
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --cov=pyrpc --cov-report=term-missing"
@@ -48,18 +60,6 @@ branch = true
 
 [tool.coverage.report]
 exclude_lines = [ "pragma: no cover", "def __repr__", "if TYPE_CHECKING:", "raise NotImplementedError",]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-line-ending = "auto"
-
-[tool.ruff.isort]
-known-first-party = [ "pyrpc",]
-combine-as-imports = true
-
-[tool.ruff.mccabe]
-max-complexity = 10
 
 [tool.hatch.build.targets.wheel]
 packages = [ "src/pyrpc",]
