@@ -19,8 +19,8 @@ except ImportError:
     PyRPCDjango = None
 
 __all__ = [
-    'BasePyRPCIntegration',
-    'PyRPCFastAPI',
-    'PyRPCFlask',
-    'PyRPCDjango',
-] 
+    "BasePyRPCIntegration",
+    "PyRPCFastAPI",
+    "PyRPCFlask",
+    "PyRPCDjango",
+]

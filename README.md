@@ -7,9 +7,8 @@ A type-safe RPC framework for Python, inspired by tRPC.
 ## Features
 
 - Full type safety from client to server
-- Built on FastAPI and Pydantic
+- Built on Pydantic
 - Simple, declarative API definitions
-- Automatic OpenAPI documentation
 
 ## Example
 
@@ -32,6 +31,7 @@ router = t(CalculatorAPI)
 ```
 
 Client:
+
 ```python
 client = create_caller(router, "http://localhost:8000/api")
 result = await client.add(AddInput(a=1, b=2))
