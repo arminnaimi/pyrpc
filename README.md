@@ -1,70 +1,39 @@
 # PyRPC
 
-A modern, type-safe RPC framework for Python. PyRPC brings end-to-end type safety to your Python APIs, with built-in support for FastAPI, Flask, and Django.
+![pre-alpha](https://img.shields.io/badge/status-pre--alpha-red)
+
+A type-safe RPC framework for Python, inspired by tRPC.
 
 ## Features
 
-- 🔒 End-to-end type safety with Pydantic
-- 🚀 Framework agnostic (FastAPI, Flask, Django)
-- 🔍 Runtime validation and error handling
-- 🛠 Middleware support with async-first design
-- 🌐 Clean, intuitive API design
-- 📦 Modern Python packaging
-- 🔧 Easy to extend and customize
+- Full type safety from client to server
+- Built on FastAPI and Pydantic
+- Simple, declarative API definitions
+- Automatic OpenAPI documentation
 
-## Installation
-
-```bash
-# Basic installation
-pip install pyrpc
-
-# With FastAPI support
-pip install pyrpc[fastapi]
-
-# With Flask support
-pip install pyrpc[flask]
-
-# With Django support
-pip install pyrpc[django]
-
-# With all framework support
-pip install pyrpc[all]
-```
-
-## Quick Start
+## Example
 
 ```python
 from pydantic import BaseModel
-from pyrpc import PyRPCRouter, PyRPCClient, ClientConfig
+from pyrpc.typed_router import t
 
-# Define your models with full type safety
-class HelloInput(BaseModel):
-    name: str
+class AddInput(BaseModel):
+    a: int
+    b: int
 
-class HelloOutput(BaseModel):
-    message: str
+class AddOutput(BaseModel):
+    result: int
 
-# Create a router
-router = PyRPCRouter()
+class CalculatorAPI:
+    async def add(self, input: AddInput) -> AddOutput:
+        return AddOutput(result=input.a + input.b)
 
-@router.query("hello")
-def hello(input: HelloInput) -> HelloOutput:
-    return HelloOutput(message=f"Hello {input.name}!")
+router = t(CalculatorAPI)
+```
 
-# FastAPI example
-from fastapi import FastAPI
-from pyrpc.integrations import PyRPCFastAPI
-
-app = FastAPI()
-pyrpc = PyRPCFastAPI(router)
-pyrpc.mount(app)
-
-# Type-safe client usage
-client = PyRPCClient(ClientConfig(base_url="http://localhost:8000/api"))
-caller = client.caller("hello")
-get_hello = caller.procedure("hello", HelloInput, HelloOutput)
-
-# Full type safety and autocompletion
-result = await get_hello({"name": "World"})
-print(result.message)  # Hello World!
+Client:
+```python
+client = create_caller(router, "http://localhost:8000/api")
+result = await client.add(AddInput(a=1, b=2))
+print(result.result)  # 3
 ```
