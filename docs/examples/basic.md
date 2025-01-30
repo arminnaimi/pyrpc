@@ -154,8 +154,8 @@ def create_comment(input: CreateCommentInput) -> CommentOutput:
 
 # Create FastAPI app
 app = FastAPI()
-trpc = PyRPCFastAPI(router)
-trpc.mount(app)
+pyrpc = PyRPCFastAPI(router)
+pyrpc.mount(app)
 
 if __name__ == "__main__":
     import uvicorn
@@ -173,7 +173,7 @@ from models import *  # Re-use server models
 async def main():
     # Create client
     client = PyRPCClient(
-        ClientConfig(base_url="http://localhost:8000/trpc")
+        ClientConfig(base_url="http://localhost:8000/pyrpc")
     )
     
     # Create procedures

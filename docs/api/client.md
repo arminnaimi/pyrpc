@@ -10,7 +10,7 @@ The main client class for making RPC calls.
 from pyrpc import PyRPCClient, ClientConfig
 
 client = PyRPCClient(
-    ClientConfig(base_url="http://localhost:8000/trpc")
+    ClientConfig(base_url="http://localhost:8000/pyrpc")
 )
 ```
 
@@ -54,7 +54,7 @@ class ClientConfig:
 **Example:**
 ```python
 config = ClientConfig(
-    base_url="http://localhost:8000/trpc",
+    base_url="http://localhost:8000/pyrpc",
     headers={
         "Authorization": "Bearer token",
         "X-Custom-Header": "value"
@@ -191,7 +191,7 @@ class UserOutput(BaseModel):
 # Create client
 client = PyRPCClient(
     ClientConfig(
-        base_url="http://localhost:8000/trpc",
+        base_url="http://localhost:8000/pyrpc",
         headers={"Authorization": "Bearer token"}
     )
 )

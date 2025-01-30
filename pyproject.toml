@@ -48,19 +48,19 @@ all = [
     "django>=4.2.0",
 ]
 test = [
-    "pytest>=7.4.0",
-    "pytest-asyncio>=0.21.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.23.0",
     "pytest-cov>=4.1.0",
-    "httpx>=0.25.2",
     "fastapi>=0.104.1",
     "flask>=3.0.0",
     "django>=4.2.0",
+    "httpx>=0.25.2",
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/pyrpc"
-Documentation = "https://github.com/yourusername/pyrpc#readme"
-Issues = "https://github.com/yourusername/pyrpc/issues"
+Homepage = "https://github.com/arminnaimi/pyrpc"
+Documentation = "https://github.com/arminnaimi/pyrpc#readme"
+Issues = "https://github.com/arminnaimi/pyrpc/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pyrpc"]

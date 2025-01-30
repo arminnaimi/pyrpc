@@ -14,7 +14,7 @@ class PyRPCFlask(BasePyRPCIntegration):
         """Handle Flask request"""
         return await self.router.handle(path, input_data, context)
 
-    def mount(self, app: Flask, prefix: str = "/trpc"):
+    def mount(self, app: Flask, prefix: str = "/api"):
         """Mount PyRPC routes on Flask app"""
         @app.post(f"{prefix}/query/<path:path>")
         async def handle_query(path):
@@ -71,5 +71,5 @@ class PyRPCFlask(BasePyRPCIntegration):
 # Example usage:
 # app = Flask(__name__)
 # router = PyRPCRouter()
-# trpc = PyRPCFlask(router)
-# trpc.mount(app) 
+# pyrpc = PyRPCFlask(router)
+# pyrpc.mount(app) 

@@ -58,8 +58,8 @@ def create_user(input: CreateUserInput) -> User:
 
 # Create FastAPI app and mount PyRPC
 app = FastAPI()
-trpc = PyRPCFastAPI(router)
-trpc.mount(app)
+pyrpc = PyRPCFastAPI(router)
+pyrpc.mount(app)
 ```
 
 ## Using the Client
@@ -71,7 +71,7 @@ from pyrpc import PyRPCClient, ClientConfig
 
 # Create a client
 client = PyRPCClient(
-    ClientConfig(base_url="http://localhost:8000/trpc")
+    ClientConfig(base_url="http://localhost:8000/api")
 )
 
 # Create type-safe procedures
@@ -101,9 +101,9 @@ Save the API code in `main.py` and run it with uvicorn:
 uvicorn main:app --reload
 ```
 
-Your API will be available at `http://localhost:8000/trpc`, and you'll get:
+Your API will be available at `http://localhost:8000/pyrpc`, and you'll get:
 - Automatic OpenAPI documentation at `/docs`
-- Type-safe endpoints at `/trpc`
+- Type-safe endpoints at `/pyrpc`
 - Runtime validation of all inputs and outputs
 
 ## Next Steps

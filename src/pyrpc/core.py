@@ -37,6 +37,7 @@ from dataclasses import dataclass
 from .context import PyRPCContext, MiddlewareBuilder
 from typing import get_type_hints
 from inspect import signature
+import asyncio
 
 Input = TypeVar("Input", bound=BaseModel)
 Output = TypeVar("Output", bound=BaseModel)
@@ -71,6 +72,7 @@ class PyRPCError(Exception):
         "METHOD_NOT_ALLOWED": 405,
         "CONFLICT": 409,
         "INTERNAL_SERVER_ERROR": 500,
+        "NOT_IMPLEMENTED": 501,
     }
 
     def __init__(
@@ -83,7 +85,12 @@ class PyRPCError(Exception):
         self.code = code
         self.message = message
         self.cause = cause
-        self.status_code = status_code or self.STATUS_CODES.get(code, 500)
+        # Ensure status code is set from parameter or mapping
+        if status_code is not None:
+            self.status_code = status_code
+        else:
+            self.status_code = self.STATUS_CODES.get(code, 500)
+        print(f"PyRPCError initialized: code={code}, status_code={self.status_code}")
         super().__init__(message)
 
 @dataclass
@@ -121,7 +128,7 @@ class ProcedureDef(Generic[Input, Output]):
     takes_context: bool = False
 
 class ProcedureBuilder(Generic[Input, Output]):
-    """Builder for creating tRPC procedures"""
+    """Builder for creating PyRPC procedures"""
     def __init__(
         self,
         router: "PyRPCRouter",
@@ -325,26 +332,41 @@ class PyRPCRouter:
             for prefix, router in self.routers.items():
                 if path.startswith(prefix + "."):
                     return await router.handle(path[len(prefix) + 1:], input_data, context)
-            raise PyRPCError("NOT_FOUND", f"Procedure {path} not found")
+            raise PyRPCError("NOT_FOUND", f"Procedure {path} not found", status_code=404)
 
         try:
             # Validate input
             try:
                 validated_input = procedure.input_model.model_validate(input_data)
             except ValidationError as e:
-                raise PyRPCError("VALIDATION_ERROR", str(e))
+                raise PyRPCError("VALIDATION_ERROR", str(e), status_code=400)
             
             # Run middleware
             async def execute_procedure(ctx: PyRPCContext):
-                if procedure.takes_context:
-                    result = procedure.resolver(validated_input, ctx)
-                else:
-                    result = procedure.resolver(validated_input)
-                return procedure.output_model.model_validate(result)
+                try:
+                    if procedure.takes_context:
+                        result = procedure.resolver(validated_input, ctx)
+                    else:
+                        result = procedure.resolver(validated_input)
+                    if asyncio.iscoroutine(result):
+                        result = await result
+                    return procedure.output_model.model_validate(result)
+                except PyRPCError as e:
+                    # Ensure status code is set if not already
+                    if not hasattr(e, 'status_code') or e.status_code is None:
+                        e.status_code = PyRPCError.STATUS_CODES.get(e.code, 500)
+                    raise e
+                except Exception as e:
+                    raise PyRPCError("INTERNAL_SERVER_ERROR", str(e), cause=e, status_code=500)
 
             return await self.middleware.handle(context, execute_procedure)
             
+        except PyRPCError as e:
+            # Double check status code is set at the top level
+            if not hasattr(e, 'status_code') or e.status_code is None:
+                e.status_code = PyRPCError.STATUS_CODES.get(e.code, 500)
+            raise e
+        except ValidationError as e:
+            raise PyRPCError("VALIDATION_ERROR", str(e), status_code=400)
         except Exception as e:
-            if isinstance(e, PyRPCError):
-                raise e
-            raise PyRPCError("INTERNAL_SERVER_ERROR", str(e), cause=e) 
+            raise PyRPCError("INTERNAL_SERVER_ERROR", str(e), cause=e, status_code=500) 

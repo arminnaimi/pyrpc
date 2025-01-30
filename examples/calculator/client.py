@@ -5,7 +5,7 @@ from typing import List
 async def main():
     # Create client
     client = PyRPCClient(
-        ClientConfig(base_url="http://localhost:8000/trpc")
+        ClientConfig(base_url="http://localhost:8000/pyrpc")
     )
     
     # Create type-safe procedures

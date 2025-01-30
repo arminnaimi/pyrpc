@@ -24,7 +24,7 @@ Example:
 
     # Create a client
     client = PyRPCClient(
-        ClientConfig(base_url="http://localhost:8000/trpc")
+        ClientConfig(base_url="http://localhost:8000/pyrpc")
     )
 
     # Create a type-safe procedure
@@ -58,7 +58,7 @@ class ClientConfig:
     Example:
         ```python
         config = ClientConfig(
-            base_url="http://localhost:8000/trpc",
+            base_url="http://localhost:8000/pyrpc",
             headers={"Authorization": "Bearer token"}
         )
         ```
@@ -259,7 +259,7 @@ class PyRPCClient:
     Example:
         ```python
         client = PyRPCClient(
-            ClientConfig(base_url="http://localhost:8000/trpc")
+            ClientConfig(base_url="http://localhost:8000/pyrpc")
         )
         users = client.caller("users")
         ```
@@ -317,7 +317,7 @@ class PyRPCClientError(Exception):
 #     id: int
 #     name: str
 # 
-# client = PyRPCClient(ClientConfig(base_url="http://localhost:8000/trpc"))
+# client = PyRPCClient(ClientConfig(base_url="http://localhost:8000/pyrpc"))
 # users = client.caller("users")
 # get_user = users.procedure("getUser", UserInput, UserOutput)
 # 

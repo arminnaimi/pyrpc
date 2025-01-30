@@ -15,6 +15,6 @@ class BasePyRPCIntegration(ABC):
         pass
 
     @abstractmethod
-    def mount(self, app: Any, prefix: str = "/trpc"):
+    def mount(self, app: Any, prefix: str = "/api"):
         """Mount the PyRPC router to a framework application"""
         pass 

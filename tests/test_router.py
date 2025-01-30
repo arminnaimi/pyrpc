@@ -19,7 +19,8 @@ async def test_router_validation(router):
             "hello",
             {"wrong_field": "value"}
         )
-    assert exc.value.code == "INTERNAL_SERVER_ERROR"
+    assert exc.value.code == "VALIDATION_ERROR"
+    assert exc.value.status_code == 400
 
 async def test_router_not_found(router):
     """Test handling of non-existent procedures"""

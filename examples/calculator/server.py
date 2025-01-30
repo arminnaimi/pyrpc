@@ -80,8 +80,8 @@ def get_history(input: GetHistoryInput) -> List[HistoryEntry]:
 
 # Create FastAPI app
 app = FastAPI(title="Calculator API")
-trpc = PyRPCFastAPI(router)
-trpc.mount(app)
+pyrpc = PyRPCFastAPI(router)
+pyrpc.mount(app)
 
 if __name__ == "__main__":
     import uvicorn
