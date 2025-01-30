@@ -1,0 +1,10 @@
+# Core dependencies
+pydantic>=2.5.2
+httpx>=0.25.2
+typing-extensions>=4.8.0
+
+# Optional framework dependencies
+fastapi>=0.104.1; extra == 'fastapi'
+uvicorn>=0.24.0; extra == 'fastapi'
+flask>=3.0.0; extra == 'flask'
+django>=4.2.0; extra == 'django' 
