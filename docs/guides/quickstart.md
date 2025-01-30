@@ -102,6 +102,7 @@ uvicorn main:app --reload
 ```
 
 Your API will be available at `http://localhost:8000/pyrpc`, and you'll get:
+
 - Automatic OpenAPI documentation at `/docs`
 - Type-safe endpoints at `/pyrpc`
 - Runtime validation of all inputs and outputs
@@ -114,4 +115,4 @@ Your API will be available at `http://localhost:8000/pyrpc`, and you'll get:
 - Check out framework-specific guides:
   - [FastAPI Integration](fastapi.md)
   - [Flask Integration](flask.md)
-  - [Django Integration](django.md) 
+  - [Django Integration](django.md)

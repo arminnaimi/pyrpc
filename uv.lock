@@ -514,8 +514,8 @@ wheels = [
 ]
 
 [[package]]
-name = "pyrpc"
-version = "0.1.0"
+name = "pyrpc-ts"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },

@@ -27,11 +27,17 @@ from .integrations import (
     PyRPCFlask,
     PyRPCDjango,
 )
+from .typed_router import (
+    create_router,
+    TypedRouter,
+    TypedProcedure,
+)
 
 # Version of the pyrpc package
 __version__ = "0.1.0"
 
 __all__ = [
+    # Core functionality
     "PyRPCRouter",
     "PyRPCError",
     "ProcedureDef",
@@ -42,7 +48,14 @@ __all__ = [
     "PyRPCContext",
     "MiddlewareFunction",
     "MiddlewareBuilder",
+    
+    # Framework integrations
     "PyRPCFastAPI",
     "PyRPCFlask",
     "PyRPCDjango",
+    
+    # Type-safe router (new)
+    "create_router",
+    "TypedRouter",
+    "TypedProcedure",
 ] 
